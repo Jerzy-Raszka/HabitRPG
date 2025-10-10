@@ -1,0 +1,10 @@
+### GET request to example server
+GET http://localhost:8080/habitrpg
+###
+POST http://localhost:8080/habitrpg
+Content-Type: application/json
+
+{
+  "task": "Kiełbasa",
+  "deadline": "2024-09-10"
+}
