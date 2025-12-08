@@ -1,5 +1,6 @@
 package com.example.habitrpg.model.entity;
 
+import com.example.habitrpg.model.enums.toDoTimeType;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -12,27 +13,59 @@ public class ToDo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String task;
+    private String description;
+    private Integer rewardXp;
+    private Integer rewardGold;
+    private toDoTimeType timeType;
     private boolean completed;
     private LocalDate deadline;
+    //private User assignedUser;
 
-    public ToDo(String task, boolean completed, LocalDate deadline) {
-        this.task = task;
-        this.completed = completed;
-        this.deadline = deadline;
-    }
 
-    public ToDo(String task) {
-        this.task = task;
-    }
-
-    public ToDo(String task, LocalDate deadline) {
-        this.task = task;
-        this.completed = false;
-        this.deadline = deadline;
+    public ToDo(Builder builder) {
+        this.task = builder.task;
+        this.description = builder.description;
+        this.rewardXp = builder.rewardXp;
+        this.rewardGold = builder.rewardGold;
+        this.timeType = builder.timeType;
+        this.completed = builder.completed;
+        this.deadline = builder.deadline;
     }
 
     public ToDo() {
 
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getRewardXp() {
+        return rewardXp;
+    }
+
+    public void setRewardXp(Integer rewardXp) {
+        this.rewardXp = rewardXp;
+    }
+
+    public Integer getRewardGold() {
+        return rewardGold;
+    }
+
+    public void setRewardGold(Integer rewardGold) {
+        this.rewardGold = rewardGold;
+    }
+
+    public toDoTimeType getTimeType() {
+        return timeType;
+    }
+
+    public void setTimeType(toDoTimeType timeType) {
+        this.timeType = timeType;
     }
 
     public String getTask() {
@@ -63,15 +96,54 @@ public class ToDo {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ToDo toDo = (ToDo) o;
-        return completed == toDo.completed && Objects.equals(id, toDo.id) && Objects.equals(task, toDo.task) && Objects.equals(deadline, toDo.deadline);
+        return completed == toDo.completed && Objects.equals(id, toDo.id) && Objects.equals(task, toDo.task) && Objects.equals(description, toDo.description) && Objects.equals(rewardXp, toDo.rewardXp) && Objects.equals(rewardGold, toDo.rewardGold) && timeType == toDo.timeType && Objects.equals(deadline, toDo.deadline);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, task, completed, deadline);
+        return Objects.hash(id, task, description, rewardXp, rewardGold, timeType, completed, deadline);
     }
 
-    public void switchCompletionStatus(){
+    public void switchCompletionStatus() {
         this.completed = !this.completed;
     }
+
+    public static class Builder {
+        private final String task;
+        private final Integer rewardXp = 100;
+        private final Integer rewardGold = 50;
+        private final boolean completed = false;
+        private String description = "";
+        private toDoTimeType timeType = toDoTimeType.NORMAL;
+        private LocalDate deadline = LocalDate.now().plusDays(1);
+
+        public Builder(String task) {
+            this.task = Objects.requireNonNull(task, "Task must not be null");
+            if (task.isBlank()) {
+                throw new IllegalArgumentException("Task must not be blank");
+            }
+        }
+
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder timeType(toDoTimeType timeType) {
+            this.timeType = timeType;
+            return this;
+        }
+
+        public Builder deadline(LocalDate deadline) {
+            this.deadline = deadline;
+            return this;
+        }
+
+        public ToDo build() {
+            return new ToDo(this);
+        }
+
+    }
+
+
 }
