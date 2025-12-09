@@ -3,7 +3,9 @@ package com.example.habitrpg.service;
 import com.example.habitrpg.model.dto.CreateUserDto;
 import com.example.habitrpg.model.entity.User;
 import com.example.habitrpg.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
     private final UserRepository userRepository;
 
