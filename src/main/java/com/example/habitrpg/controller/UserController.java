@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addNewUser(@Valid @RequestParam CreateUserDto createUserDto) {
+    public ResponseEntity<User> addNewUser(@Valid @RequestBody CreateUserDto createUserDto) {
         User newUser = userService.createFromDTO(createUserDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
@@ -30,27 +30,27 @@ public class UserController {
     }
 
     @PostMapping("{id}/xp")
-    public void addXp(@PathVariable Integer id, @RequestParam AmountDto amountDto) {
+    public void addXp(@PathVariable Integer id, @Valid @RequestBody AmountDto amountDto) {
         userService.addXp(id, amountDto.amount());
     }
 
     @PostMapping("{id}/gold/add")
-    public void addGold(@PathVariable Integer id, @RequestParam AmountDto amountDto) {
+    public void addGold(@PathVariable Integer id, @Valid @RequestBody AmountDto amountDto) {
         userService.addGold(id, amountDto.amount());
     }
 
     @PostMapping("{id}/gold/subtract")
-    public void subtractGold(@PathVariable Integer id, @RequestParam AmountDto amountDto) {
+    public void subtractGold(@PathVariable Integer id, @Valid @RequestBody AmountDto amountDto) {
         userService.subtractGold(id, amountDto.amount());
     }
 
     @PostMapping("{id}/heal")
-    public void heal(@PathVariable Integer id, @RequestParam AmountDto amountDto) {
+    public void heal(@PathVariable Integer id, @Valid @RequestBody AmountDto amountDto) {
         userService.heal(id, amountDto.amount());
     }
 
     @PostMapping("{id}/dealdamage")
-    public void dealDamage(@PathVariable Integer id, @RequestParam AmountDto amountDto) {
+    public void dealDamage(@PathVariable Integer id, @Valid @RequestBody AmountDto amountDto) {
         userService.dealDamage(id, amountDto.amount());
     }
 

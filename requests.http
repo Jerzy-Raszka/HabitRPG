@@ -1,8 +1,8 @@
 ### GET request to example server
-GET http://localhost:8080/habitrpg
+GET http://localhost:8080/habitrpg/todo
 
 ###
-POST http://localhost:8080/habitrpg
+POST http://localhost:8080/habitrpg/todo
 Content-Type: application/json
 
 {
@@ -11,11 +11,63 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/habitrpg
+POST http://localhost:8080/habitrpg/todo
 Content-Type: application/json
 
 {
   "task": "Kiełbasa",
   "description": "Najlepiej podwawelska",
   "timeType": "DAILY"
+}
+
+###
+POST http://localhost:8080/habitrpg/user
+Content-Type: application/json
+
+{
+  "username": "Testowy user",
+  "password": "Cweloza"
+}
+
+###
+POST http://localhost:8080/habitrpg/user/1/levelup
+
+###
+POST http://localhost:8080/habitrpg/user/1/xp
+Content-Type: application/json
+
+{
+  "amount": 25
+}
+
+###
+POST http://localhost:8080/habitrpg/user/1/gold/subtract
+Content-Type: application/json
+
+{
+  "amount": 25
+}
+
+###
+POST http://localhost:8080/habitrpg/user/1/gold/add
+Content-Type: application/json
+
+{
+  "amount": 25
+}
+
+###
+POST http://localhost:8080/habitrpg/user/1/heal
+Content-Type: application/json
+
+{
+  "amount": 1
+}
+
+###
+POST http://localhost:8080/habitrpg/user/1/dealdamage
+Content-Type: application/json
+
+{
+  "amount": 48
 }
