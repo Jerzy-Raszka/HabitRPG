@@ -36,10 +36,6 @@ public class ToDoService {
         return toDoRepository.save(toDo);
     }
 
-    public void insertToDo(ToDo toDo) {
-        toDoRepository.save(toDo);
-    }
-
     public void changeCompletionStatus(Integer id) {
         ToDo todo = toDoRepository.findById(id).orElseThrow(() -> new RuntimeException(id + " not found"));
         todo.switchCompletionStatus();
