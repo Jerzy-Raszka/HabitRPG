@@ -21,6 +21,7 @@ public class ToDoService {
 
     public ToDo createFromDto(CreateToDoDto createToDoDto) {
         ToDo.Builder builder = new ToDo.Builder(createToDoDto.task());
+        builder.assignedUser(createToDoDto.assignedUser());
         if (createToDoDto.description() != null && !createToDoDto.description().isBlank()) {
             builder.description(createToDoDto.description());
         }

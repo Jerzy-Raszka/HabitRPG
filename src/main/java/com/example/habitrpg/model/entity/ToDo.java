@@ -19,8 +19,9 @@ public class ToDo {
     private toDoTimeType timeType;
     private boolean completed;
     private LocalDate deadline;
-    //private User assignedUser;
-
+    @OneToOne
+    @JoinColumn(name = "assigned_user_user_id")
+    private User assignedUser;
 
     public ToDo(Builder builder) {
         this.task = builder.task;
@@ -30,10 +31,19 @@ public class ToDo {
         this.timeType = builder.timeType;
         this.completed = builder.completed;
         this.deadline = builder.deadline;
+        this.assignedUser = builder.assignedUser;
     }
 
     public ToDo() {
 
+    }
+
+    public User getAssignedUser() {
+        return assignedUser;
+    }
+
+    public void setAssignedUser(User assignedUser) {
+        this.assignedUser = assignedUser;
     }
 
     public String getDescription() {
@@ -116,6 +126,7 @@ public class ToDo {
         private String description = "";
         private toDoTimeType timeType = toDoTimeType.NORMAL;
         private LocalDate deadline = LocalDate.now().plusDays(1);
+        private User assignedUser;
 
         public Builder(String task) {
             this.task = Objects.requireNonNull(task, "Task must not be null");
@@ -136,6 +147,11 @@ public class ToDo {
 
         public Builder deadline(LocalDate deadline) {
             this.deadline = deadline;
+            return this;
+        }
+
+        public Builder assignedUser(User assignedUser) {
+            this.assignedUser = Objects.requireNonNull(assignedUser, "User not specified");
             return this;
         }
 
