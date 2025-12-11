@@ -1,6 +1,6 @@
 package com.example.habitrpg.service;
 
-import com.example.habitrpg.model.dto.ToDoDto;
+import com.example.habitrpg.model.entity.CreateToDoDto;
 import com.example.habitrpg.model.entity.ToDo;
 import com.example.habitrpg.repository.ToDoRepository;
 import org.springframework.stereotype.Service;
@@ -19,16 +19,16 @@ public class ToDoService {
         return toDoRepository.findAll();
     }
 
-    public ToDo createFromDto(ToDoDto toDoDto) {
-        ToDo.Builder builder = new ToDo.Builder(toDoDto.task());
-        if (toDoDto.description() != null && !toDoDto.description().isBlank()) {
-            builder.description(toDoDto.description());
+    public ToDo createFromDto(CreateToDoDto createToDoDto) {
+        ToDo.Builder builder = new ToDo.Builder(createToDoDto.task());
+        if (createToDoDto.description() != null && !createToDoDto.description().isBlank()) {
+            builder.description(createToDoDto.description());
         }
-        if (toDoDto.timeType() != null) {
-            builder.timeType(toDoDto.timeType());
+        if (createToDoDto.timeType() != null) {
+            builder.timeType(createToDoDto.timeType());
         }
-        if (toDoDto.deadline() != null) {
-            builder.deadline(toDoDto.deadline());
+        if (createToDoDto.deadline() != null) {
+            builder.deadline(createToDoDto.deadline());
         }
 
         ToDo toDo = builder.build();

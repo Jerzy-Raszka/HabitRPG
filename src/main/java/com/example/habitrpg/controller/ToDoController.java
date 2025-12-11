@@ -1,6 +1,7 @@
 package com.example.habitrpg.controller;
 
 import com.example.habitrpg.model.dto.ToDoDto;
+import com.example.habitrpg.model.entity.CreateToDoDto;
 import com.example.habitrpg.model.entity.ToDo;
 import com.example.habitrpg.service.ToDoService;
 import jakarta.validation.Valid;
@@ -25,8 +26,8 @@ public class ToDoController {
     }
 
     @PostMapping
-    public ResponseEntity<ToDo> addNewTodo(@Valid @RequestBody ToDoDto todoDto) {
-        ToDo created = toDoService.createFromDto(todoDto);
+    public ResponseEntity<ToDo> addNewTodo(@Valid @RequestBody CreateToDoDto createToDoDto) {
+        ToDo created = toDoService.createFromDto(createToDoDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
