@@ -7,15 +7,6 @@ Content-Type: application/json
 
 {
   "task": "Kiełbasa",
-  "deadline": "2026-09-10"
-}
-
-###
-POST http://localhost:8080/habitrpg/todo
-Content-Type: application/json
-
-{
-  "task": "Kiełbasa",
   "description": "Najlepiej podwawelska",
   "timeType": "DAILY",
   "assignedUserId": 1

@@ -10,6 +10,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
+    @Column(unique = true)
     private String username;
     private String password;
     private Integer level;
