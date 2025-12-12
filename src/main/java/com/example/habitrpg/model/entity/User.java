@@ -37,6 +37,10 @@ public class User {
 
     public void addXp(Integer addedXp) {
         this.xp += addedXp;
+        if (this.xp >= 100) {
+            this.xp -= 100;
+            this.addLevel();
+        }
     }
 
     public void addGold(Integer goldAmount) {
