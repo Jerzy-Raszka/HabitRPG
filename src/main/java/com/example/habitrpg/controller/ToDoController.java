@@ -1,7 +1,7 @@
 package com.example.habitrpg.controller;
 
+import com.example.habitrpg.model.dto.CreateToDoDto;
 import com.example.habitrpg.model.dto.ToDoDto;
-import com.example.habitrpg.model.entity.CreateToDoDto;
 import com.example.habitrpg.model.entity.ToDo;
 import com.example.habitrpg.service.ToDoService;
 import jakarta.validation.Valid;

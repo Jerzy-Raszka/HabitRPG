@@ -1,4 +1,4 @@
-package com.example.habitrpg.model.entity;
+package com.example.habitrpg.model.dto;
 
 import com.example.habitrpg.model.enums.toDoTimeType;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -18,7 +18,7 @@ public record CreateToDoDto(
         @FutureOrPresent(message = "Deadline can't be in the past")
         LocalDate deadline,
         @NotNull
-        User assignedUser
+        Integer assignedUserId
 
 ) {
 }

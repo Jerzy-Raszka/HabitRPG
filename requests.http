@@ -17,7 +17,8 @@ Content-Type: application/json
 {
   "task": "Kiełbasa",
   "description": "Najlepiej podwawelska",
-  "timeType": "DAILY"
+  "timeType": "DAILY",
+  "assignedUserId": 1
 }
 
 ###

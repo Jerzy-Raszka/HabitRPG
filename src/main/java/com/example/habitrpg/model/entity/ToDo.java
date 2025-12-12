@@ -19,7 +19,7 @@ public class ToDo {
     private toDoTimeType timeType;
     private boolean completed;
     private LocalDate deadline;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "assigned_user_user_id")
     private User assignedUser;
 
@@ -151,7 +151,7 @@ public class ToDo {
         }
 
         public Builder assignedUser(User assignedUser) {
-            this.assignedUser = Objects.requireNonNull(assignedUser, "User not specified");
+            this.assignedUser = Objects.requireNonNull(assignedUser, "User must be specified");
             return this;
         }
 
