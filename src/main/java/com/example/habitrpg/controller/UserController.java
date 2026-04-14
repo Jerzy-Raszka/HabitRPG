@@ -1,12 +1,8 @@
 package com.example.habitrpg.controller;
 
 import com.example.habitrpg.model.dto.AmountDto;
-import com.example.habitrpg.model.dto.CreateUserDto;
-import com.example.habitrpg.model.entity.User;
 import com.example.habitrpg.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,12 +12,6 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @PostMapping
-    public ResponseEntity<User> addNewUser(@Valid @RequestBody CreateUserDto createUserDto) {
-        User newUser = userService.createFromDTO(createUserDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 
     @PostMapping("{id}/levelup")

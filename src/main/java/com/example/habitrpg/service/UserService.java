@@ -1,6 +1,5 @@
 package com.example.habitrpg.service;
 
-import com.example.habitrpg.model.dto.CreateUserDto;
 import com.example.habitrpg.model.entity.User;
 import com.example.habitrpg.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -11,11 +10,6 @@ public class UserService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    public User createFromDTO(CreateUserDto createUserDto) {
-        User newUser = new User(createUserDto.username(), createUserDto.password());
-        return userRepository.save(newUser);
     }
 
     public void levelUp(Integer id) {
