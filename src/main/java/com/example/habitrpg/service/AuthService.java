@@ -11,18 +11,20 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
-    public User login(LoginDto loginDto) {
+    public String login(LoginDto loginDto) {
         User user = userRepository.findByUsername(loginDto.username()).orElseThrow();
         if (!passwordEncoder.matches(loginDto.password(), user.getPassword())) {
             throw new RuntimeException("Wrong password");
         }
-        return user;
+        return jwtService.generateToken(user.getUsername());
     }
 
     public User register(CreateUserDto createUserDto) {
