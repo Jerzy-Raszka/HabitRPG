@@ -3,6 +3,7 @@ package com.example.habitrpg.controller;
 import com.example.habitrpg.model.dto.AmountDto;
 import com.example.habitrpg.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,9 +15,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("{id}/levelup")
-    public void levelUp(@PathVariable Integer id) {
-        userService.levelUp(id);
+    @PostMapping("/levelup")
+    public void levelUp(Authentication authentication) {
+        String username = (String) authentication.getPrincipal();
+        userService.levelUp(username);
     }
 
     @PostMapping("{id}/xp")

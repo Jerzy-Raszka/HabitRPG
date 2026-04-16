@@ -12,8 +12,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void levelUp(Integer id) {
-        User currentUser = userRepository.findById(id).orElseThrow(() -> new RuntimeException(id + " not found"));
+    public void levelUp(String username) {
+        User currentUser = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException(username + " not found"));
         currentUser.addLevel();
         userRepository.save(currentUser);
     }
