@@ -26,9 +26,9 @@ public class ToDoService {
     }
 
     public ToDo createFromDto(CreateToDoDto createToDoDto) {
-        Integer userId = createToDoDto.assignedUserId();
-        User assignedUser = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Assigned user not found: " + userId));
+
+        User assignedUser = userRepository.findByUsername(createToDoDto.assignedUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username not found: "));
 
         ToDo.Builder builder = new ToDo.Builder(createToDoDto.task());
         builder.assignedUser(assignedUser);

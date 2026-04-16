@@ -18,7 +18,7 @@ public record CreateToDoDto(
         @FutureOrPresent(message = "Deadline can't be in the past")
         LocalDate deadline,
         @NotNull
-        Integer assignedUserId
+        String assignedUsername
 
 ) {
 }
