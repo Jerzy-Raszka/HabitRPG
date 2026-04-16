@@ -21,8 +21,8 @@ public class ToDoService {
         this.userRepository = userRepository;
     }
 
-    public List<ToDo> getAllToDo() {
-        return toDoRepository.findAll();
+    public List<ToDo> getUserToDo(String username) {
+        return toDoRepository.findAllByAssignedUser_Username(username);
     }
 
     public ToDo createFromDto(CreateToDoDto createToDoDto) {

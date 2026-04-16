@@ -7,6 +7,7 @@ import com.example.habitrpg.service.ToDoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class ToDoController {
     }
 
     @GetMapping
-    public List<ToDoDto> getTodo() {
-        return toDoService.getAllToDo().stream().map(u -> new ToDoDto(u.getTask(), u.getDescription(), u.getRewardXp(), u.getRewardGold(), u.getTimeType(), u.isCompleted(), u.getDeadline())).toList();
+    public List<ToDoDto> getTodo(Authentication authentication) {
+        return toDoService.getUserToDo((String) authentication.getPrincipal()).stream().map(u -> new ToDoDto(u.getTask(), u.getDescription(), u.getRewardXp(), u.getRewardGold(), u.getTimeType(), u.isCompleted(), u.getDeadline())).toList();
     }
 
     @PostMapping
