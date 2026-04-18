@@ -34,9 +34,9 @@ public class UserController {
         userService.subtractGold(amountDto.amount());
     }
 
-    @PostMapping("{id}/dealdamage")
-    public void dealDamage(@PathVariable Integer id, @Valid @RequestBody AmountDto amountDto) {
-        userService.dealDamage(id, amountDto.amount());
+    @PostMapping("/dealdamage")
+    public void dealDamage(@Valid @RequestBody AmountDto amountDto) {
+        userService.dealDamage(amountDto.amount());
     }
 
     @PostMapping("/heal")

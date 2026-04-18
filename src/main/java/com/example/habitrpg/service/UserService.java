@@ -39,8 +39,8 @@ public class UserService {
         userRepository.save(currentUser);
     }
 
-    public void dealDamage(Integer id, Integer damageAmount) {
-        User currentUser = userRepository.findById(id).orElseThrow(() -> new RuntimeException(id + " not found"));
+    public void dealDamage(Integer damageAmount) {
+        User currentUser = currentUserProvider.getCurrentUser();
         currentUser.subtractHp(damageAmount);
         userRepository.save(currentUser);
     }
