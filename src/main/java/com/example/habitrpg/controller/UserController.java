@@ -24,24 +24,24 @@ public class UserController {
         userService.addXp(amountDto.amount());
     }
 
-    @PostMapping("{id}/gold/add")
-    public void addGold(@PathVariable Integer id, @Valid @RequestBody AmountDto amountDto) {
-        userService.addGold(id, amountDto.amount());
+    @PostMapping("/gold/add")
+    public void addGold(@Valid @RequestBody AmountDto amountDto) {
+        userService.addGold(amountDto.amount());
     }
 
-    @PostMapping("{id}/gold/subtract")
-    public void subtractGold(@PathVariable Integer id, @Valid @RequestBody AmountDto amountDto) {
-        userService.subtractGold(id, amountDto.amount());
-    }
-
-    @PostMapping("{id}/heal")
-    public void heal(@PathVariable Integer id, @Valid @RequestBody AmountDto amountDto) {
-        userService.heal(id, amountDto.amount());
+    @PostMapping("/gold/subtract")
+    public void subtractGold(@Valid @RequestBody AmountDto amountDto) {
+        userService.subtractGold(amountDto.amount());
     }
 
     @PostMapping("{id}/dealdamage")
     public void dealDamage(@PathVariable Integer id, @Valid @RequestBody AmountDto amountDto) {
         userService.dealDamage(id, amountDto.amount());
+    }
+
+    @PostMapping("/heal")
+    public void heal(@Valid @RequestBody AmountDto amountDto) {
+        userService.heal(amountDto.amount());
     }
 
     @DeleteMapping("{id}")

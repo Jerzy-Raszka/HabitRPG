@@ -27,14 +27,14 @@ public class UserService {
         userRepository.save(currentUser);
     }
 
-    public void addGold(Integer id, Integer goldAmount) {
-        User currentUser = userRepository.findById(id).orElseThrow(() -> new RuntimeException(id + " not found"));
+    public void addGold(Integer goldAmount) {
+        User currentUser = currentUserProvider.getCurrentUser();
         currentUser.addGold(goldAmount);
         userRepository.save(currentUser);
     }
 
-    public void subtractGold(Integer id, Integer goldAmount) {
-        User currentUser = userRepository.findById(id).orElseThrow(() -> new RuntimeException(id + " not found"));
+    public void subtractGold(Integer goldAmount) {
+        User currentUser = currentUserProvider.getCurrentUser();
         currentUser.subtractGold(goldAmount);
         userRepository.save(currentUser);
     }
@@ -45,8 +45,8 @@ public class UserService {
         userRepository.save(currentUser);
     }
 
-    public void heal(Integer id, Integer healAmount) {
-        User currentUser = userRepository.findById(id).orElseThrow(() -> new RuntimeException(id + " not found"));
+    public void heal(Integer healAmount) {
+        User currentUser = currentUserProvider.getCurrentUser();
         currentUser.addHp(healAmount);
         userRepository.save(currentUser);
     }
