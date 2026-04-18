@@ -44,8 +44,8 @@ public class UserController {
         userService.heal(amountDto.amount());
     }
 
-    @DeleteMapping("{id}")
-    public void deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
+    @DeleteMapping()
+    public void deleteUser() {
+        userService.deleteUser();
     }
 }

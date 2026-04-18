@@ -51,7 +51,8 @@ public class UserService {
         userRepository.save(currentUser);
     }
 
-    public void deleteUser(Integer id) {
-        userRepository.deleteById(id);
+    public void deleteUser() {
+        User currentUser = currentUserProvider.getCurrentUser();
+        userRepository.deleteByUsername(currentUser.getUsername());
     }
 }
