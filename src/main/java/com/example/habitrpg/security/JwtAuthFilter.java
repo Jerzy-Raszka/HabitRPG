@@ -1,4 +1,4 @@
-package com.example.habitrpg.config;
+package com.example.habitrpg.security;
 
 import com.example.habitrpg.service.JwtService;
 import jakarta.servlet.FilterChain;
