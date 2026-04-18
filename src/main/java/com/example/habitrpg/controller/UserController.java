@@ -19,9 +19,9 @@ public class UserController {
         userService.levelUp();
     }
 
-    @PostMapping("{id}/xp")
-    public void addXp(@PathVariable Integer id, @Valid @RequestBody AmountDto amountDto) {
-        userService.addXp(id, amountDto.amount());
+    @PostMapping("/xp")
+    public void addXp(@Valid @RequestBody AmountDto amountDto) {
+        userService.addXp(amountDto.amount());
     }
 
     @PostMapping("{id}/gold/add")

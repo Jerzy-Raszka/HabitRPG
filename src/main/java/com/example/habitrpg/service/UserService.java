@@ -21,8 +21,8 @@ public class UserService {
         userRepository.save(currentUser);
     }
 
-    public void addXp(Integer id, Integer xp) {
-        User currentUser = userRepository.findById(id).orElseThrow(() -> new RuntimeException(id + " not found"));
+    public void addXp(Integer xp) {
+        User currentUser = currentUserProvider.getCurrentUser();
         currentUser.addXp(xp);
         userRepository.save(currentUser);
     }
