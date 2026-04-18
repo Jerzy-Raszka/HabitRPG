@@ -5,9 +5,7 @@ import com.example.habitrpg.model.entity.ToDo;
 import com.example.habitrpg.model.entity.User;
 import com.example.habitrpg.repository.ToDoRepository;
 import com.example.habitrpg.repository.UserRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -25,13 +23,12 @@ public class ToDoService {
         return toDoRepository.findAllByAssignedUser_Username(username);
     }
 
-    public ToDo createFromDto(CreateToDoDto createToDoDto) {
+    public ToDo createFromDto(CreateToDoDto createToDoDto, String currentUser) {
 
-        User assignedUser = userRepository.findByUsername(createToDoDto.assignedUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username not found: "));
+        User user = userRepository.findByUsername(currentUser).orElseThrow(() -> new RuntimeException(currentUser + "invalid"));
 
         ToDo.Builder builder = new ToDo.Builder(createToDoDto.task());
-        builder.assignedUser(assignedUser);
+        builder.assignedUser(user);
         if (createToDoDto.description() != null && !createToDoDto.description().isBlank()) {
             builder.description(createToDoDto.description());
         }

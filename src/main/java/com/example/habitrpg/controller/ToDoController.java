@@ -27,8 +27,8 @@ public class ToDoController {
     }
 
     @PostMapping
-    public ResponseEntity<ToDo> addNewTodo(@Valid @RequestBody CreateToDoDto createToDoDto) {
-        ToDo created = toDoService.createFromDto(createToDoDto);
+    public ResponseEntity<ToDo> addNewTodo(@Valid @RequestBody CreateToDoDto createToDoDto, Authentication authentication) {
+        ToDo created = toDoService.createFromDto(createToDoDto, (String) authentication.getPrincipal());
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
