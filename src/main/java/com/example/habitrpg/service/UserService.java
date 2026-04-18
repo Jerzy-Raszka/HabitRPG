@@ -2,18 +2,21 @@ package com.example.habitrpg.service;
 
 import com.example.habitrpg.model.entity.User;
 import com.example.habitrpg.repository.UserRepository;
+import com.example.habitrpg.security.CurrentUserProvider;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final CurrentUserProvider currentUserProvider;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, CurrentUserProvider currentUserProvider) {
         this.userRepository = userRepository;
+        this.currentUserProvider = currentUserProvider;
     }
 
-    public void levelUp(String username) {
-        User currentUser = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException(username + " not found"));
+    public void levelUp() {
+        User currentUser = currentUserProvider.getCurrentUser();
         currentUser.addLevel();
         userRepository.save(currentUser);
     }
