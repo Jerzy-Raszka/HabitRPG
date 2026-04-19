@@ -2,12 +2,10 @@ package com.example.habitrpg.controller;
 
 import com.example.habitrpg.model.dto.CreateToDoDto;
 import com.example.habitrpg.model.dto.ToDoDto;
-import com.example.habitrpg.model.entity.ToDo;
 import com.example.habitrpg.service.ToDoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,13 +20,13 @@ public class ToDoController {
     }
 
     @GetMapping
-    public List<ToDoDto> getTodo(Authentication authentication) {
+    public List<ToDoDto> getTodo() {
         return toDoService.getUserToDo();
     }
 
     @PostMapping
-    public ResponseEntity<ToDo> addNewTodo(@Valid @RequestBody CreateToDoDto createToDoDto, Authentication authentication) {
-        ToDo created = toDoService.createFromDto(createToDoDto, (String) authentication.getPrincipal());
+    public ResponseEntity<ToDoDto> addNewTodo(@Valid @RequestBody CreateToDoDto createToDoDto) {
+        ToDoDto created = toDoService.createFromDto(createToDoDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 

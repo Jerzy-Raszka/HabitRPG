@@ -36,9 +36,9 @@ public class ToDoService {
         return toDoRepository.findAllByAssignedUser(currentUserProvider.getCurrentUser());
     }
 
-    public ToDo createFromDto(CreateToDoDto createToDoDto, String currentUser) {
+    public ToDoDto createFromDto(CreateToDoDto createToDoDto) {
 
-        User user = userRepository.findByUsername(currentUser).orElseThrow(() -> new RuntimeException(currentUser + "invalid"));
+        User user = currentUserProvider.getCurrentUser();
 
         ToDo.Builder builder = new ToDo.Builder(createToDoDto.task());
         builder.assignedUser(user);
@@ -54,7 +54,17 @@ public class ToDoService {
 
         ToDo toDo = builder.build();
 
-        return toDoRepository.save(toDo);
+        ToDo saved = toDoRepository.save(toDo);
+
+        return new ToDoDto(
+                saved.getTask(),
+                saved.getDescription(),
+                saved.getRewardXp(),
+                saved.getRewardGold(),
+                saved.getTimeType(),
+                saved.isCompleted(),
+                saved.getDeadline()
+        );
     }
 
     public void changeCompletionStatus(Integer id) {
