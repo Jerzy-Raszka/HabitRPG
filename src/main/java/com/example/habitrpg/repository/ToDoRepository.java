@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ToDoRepository extends JpaRepository<ToDo, Integer> {
-    Optional<ToDo> findByIdAndAssignedUsername(Integer id, String username);
+    Optional<ToDo> findByIdAndAssignedUserUsername(Integer id, String username);
 
     List<ToDo> findAllByAssignedUser_Username(String username);
 }

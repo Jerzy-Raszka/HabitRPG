@@ -25,8 +25,7 @@ public class ToDoService {
     }
 
     private ToDo getTodoIfOwnedByCurrentUser(Integer id) {
-        return toDoRepository.findByIdAndAssignedUsername(id, currentUserProvider.getCurrentUser()
-                        .getUsername())
+        return toDoRepository.findByIdAndAssignedUserUsername(id, currentUserProvider.getCurrentUser().getUsername())
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND)
                 );
