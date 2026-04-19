@@ -1,6 +1,7 @@
 package com.example.habitrpg.controller;
 
 import com.example.habitrpg.model.dto.AmountDto;
+import com.example.habitrpg.model.dto.UserProfileDto;
 import com.example.habitrpg.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,11 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/profile")
+    public UserProfileDto getUserProfile() {
+        return userService.getUserProfile();
     }
 
     @PostMapping("/levelup")

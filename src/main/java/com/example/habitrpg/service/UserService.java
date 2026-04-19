@@ -1,9 +1,12 @@
 package com.example.habitrpg.service;
 
+import com.example.habitrpg.model.dto.UserProfileDto;
 import com.example.habitrpg.model.entity.User;
 import com.example.habitrpg.repository.UserRepository;
 import com.example.habitrpg.security.CurrentUserProvider;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UserService {
@@ -13,6 +16,11 @@ public class UserService {
     public UserService(UserRepository userRepository, CurrentUserProvider currentUserProvider) {
         this.userRepository = userRepository;
         this.currentUserProvider = currentUserProvider;
+    }
+
+    public UserProfileDto getUserProfile() {
+        String currentUserUsername = currentUserProvider.getCurrentUser().getUsername();
+        return userRepository.findProfileByUsername(currentUserUsername).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     public void levelUp() {
