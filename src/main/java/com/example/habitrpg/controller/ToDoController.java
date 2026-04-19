@@ -23,7 +23,7 @@ public class ToDoController {
 
     @GetMapping
     public List<ToDoDto> getTodo(Authentication authentication) {
-        return toDoService.getUserToDo((String) authentication.getPrincipal()).stream().map(u -> new ToDoDto(u.getTask(), u.getDescription(), u.getRewardXp(), u.getRewardGold(), u.getTimeType(), u.isCompleted(), u.getDeadline())).toList();
+        return toDoService.getUserToDo();
     }
 
     @PostMapping

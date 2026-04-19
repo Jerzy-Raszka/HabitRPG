@@ -1,6 +1,7 @@
 package com.example.habitrpg.service;
 
 import com.example.habitrpg.model.dto.CreateToDoDto;
+import com.example.habitrpg.model.dto.ToDoDto;
 import com.example.habitrpg.model.entity.ToDo;
 import com.example.habitrpg.model.entity.User;
 import com.example.habitrpg.repository.ToDoRepository;
@@ -31,8 +32,8 @@ public class ToDoService {
                 );
     }
 
-    public List<ToDo> getUserToDo(String username) {
-        return toDoRepository.findAllByAssignedUser_Username(username);
+    public List<ToDoDto> getUserToDo() {
+        return toDoRepository.findAllByAssignedUser(currentUserProvider.getCurrentUser());
     }
 
     public ToDo createFromDto(CreateToDoDto createToDoDto, String currentUser) {
