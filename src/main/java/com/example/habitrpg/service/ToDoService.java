@@ -5,7 +5,10 @@ import com.example.habitrpg.model.entity.ToDo;
 import com.example.habitrpg.model.entity.User;
 import com.example.habitrpg.repository.ToDoRepository;
 import com.example.habitrpg.repository.UserRepository;
+import com.example.habitrpg.security.CurrentUserProvider;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -13,10 +16,20 @@ import java.util.List;
 public class ToDoService {
     private final ToDoRepository toDoRepository;
     private final UserRepository userRepository;
+    private final CurrentUserProvider currentUserProvider;
 
-    public ToDoService(ToDoRepository toDoRepository, UserRepository userRepository) {
+    public ToDoService(ToDoRepository toDoRepository, UserRepository userRepository, CurrentUserProvider currentUserProvider) {
         this.toDoRepository = toDoRepository;
         this.userRepository = userRepository;
+        this.currentUserProvider = currentUserProvider;
+    }
+
+    private ToDo getTodoIfOwnedByCurrentUser(Integer id) {
+        return toDoRepository.findByIdAndAssignedUsername(id, currentUserProvider.getCurrentUser()
+                        .getUsername())
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND)
+                );
     }
 
     public List<ToDo> getUserToDo(String username) {
@@ -45,12 +58,15 @@ public class ToDoService {
     }
 
     public void changeCompletionStatus(Integer id) {
-        ToDo todo = toDoRepository.findById(id).orElseThrow(() -> new RuntimeException(id + " not found"));
+
+        ToDo todo = getTodoIfOwnedByCurrentUser(id);
         todo.switchCompletionStatus();
         toDoRepository.save(todo);
+
     }
 
     public void deleteTodo(Integer id) {
-        toDoRepository.deleteById(id);
+        ToDo todo = getTodoIfOwnedByCurrentUser(id);
+        toDoRepository.delete(todo);
     }
 }
