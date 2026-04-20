@@ -5,7 +5,6 @@ import com.example.habitrpg.model.dto.ToDoDto;
 import com.example.habitrpg.model.entity.ToDo;
 import com.example.habitrpg.model.entity.User;
 import com.example.habitrpg.repository.ToDoRepository;
-import com.example.habitrpg.repository.UserRepository;
 import com.example.habitrpg.security.CurrentUserProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,12 +15,10 @@ import java.util.List;
 @Service
 public class ToDoService {
     private final ToDoRepository toDoRepository;
-    private final UserRepository userRepository;
     private final CurrentUserProvider currentUserProvider;
 
-    public ToDoService(ToDoRepository toDoRepository, UserRepository userRepository, CurrentUserProvider currentUserProvider) {
+    public ToDoService(ToDoRepository toDoRepository, CurrentUserProvider currentUserProvider) {
         this.toDoRepository = toDoRepository;
-        this.userRepository = userRepository;
         this.currentUserProvider = currentUserProvider;
     }
 

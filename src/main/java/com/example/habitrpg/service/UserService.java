@@ -31,7 +31,12 @@ public class UserService {
 
     public void addXp(Integer xp) {
         User currentUser = currentUserProvider.getCurrentUser();
-        currentUser.addXp(xp);
+        if (currentUser.getXp() + xp > 100) {
+            levelUp();
+            currentUser.setXp(currentUser.getXp() + xp - 100);
+        } else {
+            currentUser.addXp(xp);
+        }
         userRepository.save(currentUser);
     }
 
