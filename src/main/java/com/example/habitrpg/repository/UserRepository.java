@@ -16,7 +16,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("""
                 SELECT new com.example.habitrpg.model.dto.UserProfileDto(
                     u.username,
-                    u.hp,
+                    u.maxHp,
+                    u.currentHp,
                     u.level,
                     u.xp,
                     u.gold
