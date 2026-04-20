@@ -61,6 +61,9 @@ public class User {
 
     public void addHp(Integer hpAmount) {
         this.currentHp += hpAmount;
+        if (this.currentHp > this.maxHp) {
+            this.currentHp = this.maxHp;
+        }
     }
 
     public void subtractHp(Integer hpAmount) {
