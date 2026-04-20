@@ -17,7 +17,8 @@ public class User {
     private Integer level;
     private Integer xp;
     private Integer gold;
-    private Integer hp;
+    private Integer maxHp;
+    private Integer currentHp;
     //inventory
 
 
@@ -30,16 +31,18 @@ public class User {
         this.level = 1;
         this.xp = 0;
         this.gold = 0;
-        this.hp = 100;
+        this.maxHp = 100;
+        this.currentHp = 100;
     }
 
     public void addLevel() {
         this.level += 1;
+        this.setCurrentHp(this.getMaxHp());
     }
 
     public void addXp(Integer addedXp) {
         this.xp += addedXp;
-        if (this.xp >= 100) {
+        while (this.xp >= 100) {
             this.xp -= 100;
             this.addLevel();
         }
@@ -57,26 +60,27 @@ public class User {
     }
 
     public void addHp(Integer hpAmount) {
-        this.hp += hpAmount;
+        this.currentHp += hpAmount;
     }
 
     public void subtractHp(Integer hpAmount) {
-        if (hpAmount >= this.hp) {
+        if (hpAmount >= this.currentHp) {
             throw new IllegalStateException("You died");
         }
-        this.hp -= hpAmount;
+        this.currentHp -= hpAmount;
     }
+
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(userId, user.userId) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(level, user.level) && Objects.equals(xp, user.xp) && Objects.equals(gold, user.gold) && Objects.equals(hp, user.hp);
+        return Objects.equals(userId, user.userId) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(level, user.level) && Objects.equals(xp, user.xp) && Objects.equals(gold, user.gold) && Objects.equals(maxHp, user.maxHp) && Objects.equals(currentHp, user.currentHp);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, username, password, level, xp, gold, hp);
+        return Objects.hash(userId, username, password, level, xp, gold, maxHp, currentHp);
     }
 
     public String getUsername() {
@@ -119,11 +123,19 @@ public class User {
         this.gold = gold;
     }
 
-    public Integer getHp() {
-        return hp;
+    public Integer getCurrentHp() {
+        return currentHp;
     }
 
-    public void setHp(Integer hp) {
-        this.hp = hp;
+    public void setCurrentHp(Integer currentHp) {
+        this.currentHp = currentHp;
+    }
+
+    public Integer getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(Integer maxHp) {
+        this.maxHp = maxHp;
     }
 }
