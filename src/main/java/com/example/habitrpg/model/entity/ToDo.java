@@ -125,7 +125,7 @@ public class ToDo {
         private final boolean completed = false;
         private String description = "";
         private toDoTimeType timeType = toDoTimeType.NORMAL;
-        private LocalDate deadline = LocalDate.now().plusDays(1);
+        private LocalDate deadline;
         private User assignedUser;
 
         public Builder(String task) {
@@ -156,10 +156,16 @@ public class ToDo {
         }
 
         public ToDo build() {
+            if (deadline == null) {
+                if (timeType == toDoTimeType.WEEKLY) {
+                    deadline = LocalDate.now().plusWeeks(1);
+                } else {
+                    deadline = LocalDate.now().plusDays(1);
+                }
+            }
             return new ToDo(this);
         }
 
     }
-
 
 }
