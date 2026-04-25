@@ -19,6 +19,7 @@ public class ToDo {
     private toDoTimeType timeType;
     private boolean completed;
     private LocalDate deadline;
+    private LocalDate lastRewardedAt;
     @ManyToOne
     @JoinColumn(name = "assigned_user_user_id")
     private User assignedUser;
@@ -102,16 +103,29 @@ public class ToDo {
         this.deadline = deadLine;
     }
 
+    public LocalDate getLastRewardedAt() {
+        return lastRewardedAt;
+    }
+
+    public void setLastRewardedAt(LocalDate lastRewardedAt) {
+        this.lastRewardedAt = lastRewardedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        ToDo toDo = (ToDo) o;
-        return completed == toDo.completed && Objects.equals(id, toDo.id) && Objects.equals(task, toDo.task) && Objects.equals(description, toDo.description) && Objects.equals(rewardXp, toDo.rewardXp) && Objects.equals(rewardGold, toDo.rewardGold) && timeType == toDo.timeType && Objects.equals(deadline, toDo.deadline);
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ToDo other)) {
+            return false;
+        }
+
+        return id != null && id.equals(other.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, task, description, rewardXp, rewardGold, timeType, completed, deadline);
+        return getClass().hashCode();
     }
 
     public void switchCompletionStatus() {
@@ -123,6 +137,7 @@ public class ToDo {
         private final Integer rewardXp = 100;
         private final Integer rewardGold = 50;
         private final boolean completed = false;
+        private final LocalDate lastRewardedAt = null;
         private String description = "";
         private toDoTimeType timeType = toDoTimeType.NORMAL;
         private LocalDate deadline;
