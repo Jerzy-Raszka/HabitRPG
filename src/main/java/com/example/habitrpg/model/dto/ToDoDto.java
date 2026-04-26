@@ -1,6 +1,6 @@
 package com.example.habitrpg.model.dto;
 
-import com.example.habitrpg.model.enums.toDoTimeType;
+import com.example.habitrpg.model.enums.ToDoTimeType;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -15,7 +15,7 @@ public record ToDoDto(
         String description,
         Integer rewardXp,
         Integer rewardGold,
-        toDoTimeType timeType,
+        ToDoTimeType timeType,
         boolean completed,
         @FutureOrPresent(message = "Deadline can't be in the past")
         LocalDate deadline

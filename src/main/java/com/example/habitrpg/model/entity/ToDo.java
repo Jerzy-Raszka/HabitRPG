@@ -1,6 +1,6 @@
 package com.example.habitrpg.model.entity;
 
-import com.example.habitrpg.model.enums.toDoTimeType;
+import com.example.habitrpg.model.enums.ToDoTimeType;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ public class ToDo {
     private String description;
     private Integer rewardXp;
     private Integer rewardGold;
-    private toDoTimeType timeType;
+    private ToDoTimeType timeType;
     private boolean completed;
     private LocalDate deadline;
     private LocalDate lastRewardedAt;
@@ -71,11 +71,11 @@ public class ToDo {
         this.rewardGold = rewardGold;
     }
 
-    public toDoTimeType getTimeType() {
+    public ToDoTimeType getTimeType() {
         return timeType;
     }
 
-    public void setTimeType(toDoTimeType timeType) {
+    public void setTimeType(ToDoTimeType timeType) {
         this.timeType = timeType;
     }
 
@@ -139,7 +139,7 @@ public class ToDo {
         private final boolean completed = false;
         private final LocalDate lastRewardedAt = null;
         private String description = "";
-        private toDoTimeType timeType = toDoTimeType.NORMAL;
+        private ToDoTimeType timeType = ToDoTimeType.NONE;
         private LocalDate deadline;
         private User assignedUser;
 
@@ -155,7 +155,7 @@ public class ToDo {
             return this;
         }
 
-        public Builder timeType(toDoTimeType timeType) {
+        public Builder timeType(ToDoTimeType timeType) {
             this.timeType = timeType;
             return this;
         }
@@ -171,13 +171,6 @@ public class ToDo {
         }
 
         public ToDo build() {
-            if (deadline == null) {
-                if (timeType == toDoTimeType.WEEKLY) {
-                    deadline = LocalDate.now().plusWeeks(1);
-                } else {
-                    deadline = LocalDate.now().plusDays(1);
-                }
-            }
             return new ToDo(this);
         }
 

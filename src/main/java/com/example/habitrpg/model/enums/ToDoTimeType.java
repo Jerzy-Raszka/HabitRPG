@@ -1,8 +1,8 @@
 package com.example.habitrpg.model.enums;
 
-public enum toDoTimeType {
-    NORMAL,
+public enum ToDoTimeType {
+    NONE,
     DAILY,
     WEEKLY,
-    BIWEEKLY,
+    MONTHLY,
 }

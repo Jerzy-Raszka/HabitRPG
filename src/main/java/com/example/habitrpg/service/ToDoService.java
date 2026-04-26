@@ -4,8 +4,11 @@ import com.example.habitrpg.model.dto.CreateToDoDto;
 import com.example.habitrpg.model.dto.ToDoDto;
 import com.example.habitrpg.model.entity.ToDo;
 import com.example.habitrpg.model.entity.User;
+import com.example.habitrpg.model.enums.ToDoTimeType;
 import com.example.habitrpg.repository.ToDoRepository;
 import com.example.habitrpg.security.CurrentUserProvider;
+import com.example.habitrpg.util.Period;
+import com.example.habitrpg.util.TimeProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,10 +19,12 @@ import java.util.List;
 public class ToDoService {
     private final ToDoRepository toDoRepository;
     private final CurrentUserProvider currentUserProvider;
+    private final TimeProvider timeProvider;
 
-    public ToDoService(ToDoRepository toDoRepository, CurrentUserProvider currentUserProvider) {
+    public ToDoService(ToDoRepository toDoRepository, CurrentUserProvider currentUserProvider, TimeProvider timeProvider) {
         this.toDoRepository = toDoRepository;
         this.currentUserProvider = currentUserProvider;
+        this.timeProvider = timeProvider;
     }
 
     private ToDo getTodoIfOwnedByCurrentUser(Integer id) {
@@ -50,6 +55,14 @@ public class ToDoService {
         }
 
         ToDo toDo = builder.build();
+
+        if (toDo.getDeadline() == null && toDo.getTimeType() != ToDoTimeType.NONE) {
+            Period period = timeProvider.currentPeriod(toDo.getTimeType());
+
+            if (period != null) {
+                toDo.setDeadline(period.end());
+            }
+        }
 
         ToDo saved = toDoRepository.save(toDo);
 
