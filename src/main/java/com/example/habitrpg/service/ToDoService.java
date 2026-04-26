@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,6 +26,19 @@ public class ToDoService {
         this.toDoRepository = toDoRepository;
         this.currentUserProvider = currentUserProvider;
         this.timeProvider = timeProvider;
+    }
+
+    public boolean isCompleted(ToDo todo) {
+
+        if (todo.getLastRewardedAt() == null) {
+            return false;
+        }
+
+        Period period = timeProvider.currentPeriod(todo.getTimeType());
+
+        LocalDate rewardDate = todo.getLastRewardedAt();
+
+        return !rewardDate.isBefore(period.start()) && !rewardDate.isAfter(period.end());
     }
 
     private ToDo getTodoIfOwnedByCurrentUser(Integer id) {
@@ -86,7 +100,9 @@ public class ToDoService {
     }
 
     public void deleteTodo(Integer id) {
+
         ToDo todo = getTodoIfOwnedByCurrentUser(id);
         toDoRepository.delete(todo);
+
     }
 }
