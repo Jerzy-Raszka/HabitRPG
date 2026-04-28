@@ -30,11 +30,6 @@ public class ToDoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    @PutMapping("{id}")
-    public void switchStatus(@PathVariable Integer id) {
-        toDoService.changeCompletionStatus(id);
-    }
-
     @DeleteMapping("{id}")
     public void deleteTodo(@PathVariable Integer id) {
         toDoService.deleteTodo(id);

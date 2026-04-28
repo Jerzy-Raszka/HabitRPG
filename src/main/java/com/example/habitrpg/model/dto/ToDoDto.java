@@ -17,6 +17,7 @@ public record ToDoDto(
         Integer rewardGold,
         ToDoTimeType timeType,
         boolean completed,
+        boolean canBeCompleted,
         @FutureOrPresent(message = "Deadline can't be in the past")
         LocalDate deadline
 ) {

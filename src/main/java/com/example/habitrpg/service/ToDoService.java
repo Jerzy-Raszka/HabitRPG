@@ -28,6 +28,7 @@ public class ToDoService {
         this.timeProvider = timeProvider;
     }
 
+    //Check if task was completed in current period
     public boolean isCompleted(ToDo todo) {
 
         if (todo.getLastRewardedAt() == null) {
@@ -41,6 +42,7 @@ public class ToDoService {
         return !rewardDate.isBefore(period.start()) && !rewardDate.isAfter(period.end());
     }
 
+    //Find task by id and return it only if belongs to currently logged user - used for deleting todos
     private ToDo getTodoIfOwnedByCurrentUser(Integer id) {
         return toDoRepository.findByIdAndAssignedUserUsername(id, currentUserProvider.getCurrentUser().getUsername())
                 .orElseThrow(() ->
@@ -48,8 +50,43 @@ public class ToDoService {
                 );
     }
 
+    private ToDoDto mapToDto(ToDo todo) {
+
+        boolean completed;
+
+        if (todo.getTimeType() == ToDoTimeType.NONE) {
+            completed = todo.getLastRewardedAt() != null;
+        } else {
+            completed = isCompleted(todo);
+        }
+
+        boolean canBeCompleted = !completed;
+
+        return new ToDoDto(
+                todo.getTask(),
+                todo.getDescription(),
+                todo.getRewardXp(),
+                todo.getRewardGold(),
+                todo.getTimeType(),
+                completed,
+                canBeCompleted,
+                todo.getDeadline()
+        );
+    }
+
+    private void applyDefaultDeadline(ToDo toDo) {
+        if (toDo.getDeadline() == null && toDo.getTimeType() != ToDoTimeType.NONE) {
+
+            Period period = timeProvider.currentPeriod(toDo.getTimeType());
+
+            if (period != null) {
+                toDo.setDeadline(period.end());
+            }
+        }
+    }
+
     public List<ToDoDto> getUserToDo() {
-        return toDoRepository.findAllByAssignedUser(currentUserProvider.getCurrentUser());
+        return toDoRepository.findAllByAssignedUser(currentUserProvider.getCurrentUser()).stream().map(this::mapToDto).toList();
     }
 
     public ToDoDto createFromDto(CreateToDoDto createToDoDto) {
@@ -70,34 +107,13 @@ public class ToDoService {
 
         ToDo toDo = builder.build();
 
-        if (toDo.getDeadline() == null && toDo.getTimeType() != ToDoTimeType.NONE) {
-            Period period = timeProvider.currentPeriod(toDo.getTimeType());
-
-            if (period != null) {
-                toDo.setDeadline(period.end());
-            }
-        }
+        applyDefaultDeadline(toDo);
 
         ToDo saved = toDoRepository.save(toDo);
 
-        return new ToDoDto(
-                saved.getTask(),
-                saved.getDescription(),
-                saved.getRewardXp(),
-                saved.getRewardGold(),
-                saved.getTimeType(),
-                saved.isCompleted(),
-                saved.getDeadline()
-        );
+        return mapToDto(saved);
     }
 
-    public void changeCompletionStatus(Integer id) {
-
-        ToDo todo = getTodoIfOwnedByCurrentUser(id);
-        todo.switchCompletionStatus();
-        toDoRepository.save(todo);
-
-    }
 
     public void deleteTodo(Integer id) {
 

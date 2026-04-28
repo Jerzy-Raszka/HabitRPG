@@ -17,7 +17,6 @@ public class ToDo {
     private Integer rewardXp;
     private Integer rewardGold;
     private ToDoTimeType timeType;
-    private boolean completed;
     private LocalDate deadline;
     private LocalDate lastRewardedAt;
     @ManyToOne
@@ -30,7 +29,6 @@ public class ToDo {
         this.rewardXp = builder.rewardXp;
         this.rewardGold = builder.rewardGold;
         this.timeType = builder.timeType;
-        this.completed = builder.completed;
         this.deadline = builder.deadline;
         this.assignedUser = builder.assignedUser;
     }
@@ -87,14 +85,6 @@ public class ToDo {
         this.task = task;
     }
 
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
     public LocalDate getDeadline() {
         return deadline;
     }
@@ -126,10 +116,6 @@ public class ToDo {
     @Override
     public int hashCode() {
         return getClass().hashCode();
-    }
-
-    public void switchCompletionStatus() {
-        this.completed = !this.completed;
     }
 
     public static class Builder {
