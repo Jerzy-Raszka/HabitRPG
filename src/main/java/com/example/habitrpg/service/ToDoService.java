@@ -28,7 +28,16 @@ public class ToDoService {
         this.timeProvider = timeProvider;
     }
 
-    public void completeTodo(ToDo todo) {
+    public void completeTodo(Integer id) {
+
+        ToDo todo = getTodoIfOwnedByCurrentUser(id);
+
+        if (isCompleted(todo)) {
+            throw new RuntimeException("This task was already completed");
+        }
+
+        todo.setLastRewardedAt(timeProvider.today());
+        toDoRepository.save(todo);
 
     }
 
