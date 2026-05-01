@@ -28,6 +28,10 @@ public class ToDoService {
         this.timeProvider = timeProvider;
     }
 
+    public void completeTodo(ToDo todo) {
+
+    }
+
     //Check if task was completed in current period
     public boolean isCompleted(ToDo todo) {
 
@@ -63,6 +67,7 @@ public class ToDoService {
         boolean canBeCompleted = !completed;
 
         return new ToDoDto(
+                todo.getId(),
                 todo.getTask(),
                 todo.getDescription(),
                 todo.getRewardXp(),

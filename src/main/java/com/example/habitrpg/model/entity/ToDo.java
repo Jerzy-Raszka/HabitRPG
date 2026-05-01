@@ -45,6 +45,10 @@ public class ToDo {
         this.assignedUser = assignedUser;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public String getDescription() {
         return description;
     }

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 public record ToDoDto(
+        Integer id,
         @NotBlank(message = "Title must not be blank")
         @Size(max = 200, message = "Title max 200 characters")
         String task,
