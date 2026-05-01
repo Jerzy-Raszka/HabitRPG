@@ -24,7 +24,7 @@ public class ToDoController {
         return toDoService.getUserToDo();
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     public ResponseEntity<ToDoDto> completeTodo(@PathVariable Integer id) {
         ToDoDto completed = toDoService.completeTodo(id);
         return ResponseEntity.status(HttpStatus.OK).body(completed);
