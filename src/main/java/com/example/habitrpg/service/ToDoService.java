@@ -28,6 +28,11 @@ public class ToDoService {
         this.timeProvider = timeProvider;
     }
 
+    public void giveRewards(User user, ToDo todo) {
+        user.addXp(todo.getRewardXp());
+        user.addGold(todo.getRewardGold());
+    }
+
     public void completeTodo(Integer id) {
 
         ToDo todo = getTodoIfOwnedByCurrentUser(id);
@@ -37,6 +42,9 @@ public class ToDoService {
         }
 
         todo.setLastRewardedAt(timeProvider.today());
+
+        giveRewards(currentUserProvider.getCurrentUser(), todo);
+
         toDoRepository.save(todo);
 
     }
