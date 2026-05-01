@@ -33,7 +33,7 @@ public class ToDoService {
         user.addGold(todo.getRewardGold());
     }
 
-    public void completeTodo(Integer id) {
+    public ToDoDto completeTodo(Integer id) {
 
         ToDo todo = getTodoIfOwnedByCurrentUser(id);
 
@@ -46,7 +46,7 @@ public class ToDoService {
         giveRewards(currentUserProvider.getCurrentUser(), todo);
 
         toDoRepository.save(todo);
-
+        return mapToDto(todo);
     }
 
     //Check if task was completed in current period

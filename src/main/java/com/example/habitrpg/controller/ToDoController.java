@@ -24,6 +24,12 @@ public class ToDoController {
         return toDoService.getUserToDo();
     }
 
+    @PutMapping
+    public ResponseEntity<ToDoDto> completeTodo(@PathVariable Integer id) {
+        ToDoDto completed = toDoService.completeTodo(id);
+        return ResponseEntity.status(HttpStatus.OK).body(completed);
+    }
+
     @PostMapping
     public ResponseEntity<ToDoDto> addNewTodo(@Valid @RequestBody CreateToDoDto createToDoDto) {
         ToDoDto created = toDoService.createFromDto(createToDoDto);
