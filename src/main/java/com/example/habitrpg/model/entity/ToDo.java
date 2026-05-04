@@ -19,6 +19,7 @@ public class ToDo {
     private ToDoTimeType timeType;
     private LocalDate deadline;
     private LocalDate lastRewardedAt;
+    private LocalDate availableAt;
     @ManyToOne
     @JoinColumn(name = "assigned_user_user_id")
     private User assignedUser;
@@ -30,6 +31,7 @@ public class ToDo {
         this.rewardGold = builder.rewardGold;
         this.timeType = builder.timeType;
         this.deadline = builder.deadline;
+        this.availableAt = builder.availableAt;
         this.assignedUser = builder.assignedUser;
     }
 
@@ -89,6 +91,14 @@ public class ToDo {
         this.task = task;
     }
 
+    public LocalDate getAvailableAt() {
+        return availableAt;
+    }
+
+    public void setAvailableAt(LocalDate availableAt) {
+        this.availableAt = availableAt;
+    }
+
     public LocalDate getDeadline() {
         return deadline;
     }
@@ -131,6 +141,7 @@ public class ToDo {
         private String description = "";
         private ToDoTimeType timeType = ToDoTimeType.NONE;
         private LocalDate deadline;
+        private LocalDate availableAt;
         private User assignedUser;
 
         public Builder(String task) {
@@ -150,8 +161,14 @@ public class ToDo {
             return this;
         }
 
+
         public Builder deadline(LocalDate deadline) {
             this.deadline = deadline;
+            return this;
+        }
+
+        public Builder availableAt(LocalDate availableAt) {
+            this.availableAt = availableAt;
             return this;
         }
 

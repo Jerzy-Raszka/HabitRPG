@@ -20,6 +20,7 @@ public record ToDoDto(
         boolean completed,
         boolean canBeCompleted,
         @FutureOrPresent(message = "Deadline can't be in the past")
-        LocalDate deadline
+        LocalDate deadline,
+        boolean available
 ) {
 }

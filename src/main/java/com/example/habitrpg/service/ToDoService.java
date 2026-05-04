@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -73,12 +74,12 @@ public class ToDoService {
 
     private ToDoDto mapToDto(ToDo todo) {
 
-        boolean completed;
+        boolean available = todo.getAvailableAt() == null || !timeProvider.today().isBefore(todo.getAvailableAt());
+        boolean completed = todo.getTimeType() == ToDoTimeType.NONE ? todo.getLastRewardedAt() != null : isCompleted(todo);
 
-        if (todo.getTimeType() == ToDoTimeType.NONE) {
-            completed = todo.getLastRewardedAt() != null;
-        } else {
-            completed = isCompleted(todo);
+
+        if (todo.getAvailableAt() != null) {
+            available = !timeProvider.today().isBefore(todo.getAvailableAt());
         }
 
         boolean canBeCompleted = !completed;
@@ -92,7 +93,8 @@ public class ToDoService {
                 todo.getTimeType(),
                 completed,
                 canBeCompleted,
-                todo.getDeadline()
+                todo.getDeadline(),
+                available
         );
     }
 
@@ -125,6 +127,9 @@ public class ToDoService {
         }
         if (createToDoDto.deadline() != null) {
             builder.deadline(createToDoDto.deadline());
+        }
+        if (createToDoDto.availableAt() != null) {
+            builder.availableAt(createToDoDto.availableAt());
         }
 
         ToDo toDo = builder.build();
