@@ -37,7 +37,8 @@ public class ToDoController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteTodo(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteTodo(@PathVariable Integer id) {
         toDoService.deleteTodo(id);
+        return ResponseEntity.noContent().build();
     }
 }

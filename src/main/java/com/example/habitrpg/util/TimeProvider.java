@@ -9,6 +9,16 @@ import java.time.LocalDate;
 @Component
 public class TimeProvider {
 
+    private LocalDate mockedDate;
+
+    public void setMockedDate(LocalDate date) {
+        mockedDate = date;
+    }
+
+    public void clearMockedDate() {
+        mockedDate = null;
+    }
+
     public Period currentPeriod(ToDoTimeType type) {
         return switch (type) {
             case DAILY -> new Period(today(), today());
@@ -31,7 +41,7 @@ public class TimeProvider {
     }
 
     public LocalDate today() {
-        return LocalDate.now();
+        return mockedDate != null ? mockedDate : LocalDate.now();
     }
 
     public LocalDate startOfWeek() {
