@@ -52,14 +52,18 @@ public class ToDoService {
     }
 
     public void giveRewards(User user, ToDo todo) {
+
         double multiplayer = switch (todo.getTimeType()) {
             case DAILY -> 0.1;
             case WEEKLY -> 0.3;
             case MONTHLY -> 1.0;
             default -> 0.0;
         };
-        user.addXp((int) Math.round((todo.getRewardXp() * (1 + multiplayer * todo.getCurrentStreak()))));
-        user.addGold((int) Math.round((todo.getRewardGold() * (1 + multiplayer * todo.getCurrentStreak()))));
+
+        double bonus = (1 + multiplayer * todo.getCurrentStreak()) >= 3 ? 3 : (1 + multiplayer * todo.getCurrentStreak());
+
+        user.addXp((int) Math.round((todo.getRewardXp() * bonus)));
+        user.addGold((int) Math.round((todo.getRewardGold() * bonus)));
     }
 
     public ToDoDto completeTodo(Integer id) {
