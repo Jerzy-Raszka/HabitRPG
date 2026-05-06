@@ -18,6 +18,18 @@ public class TimeProvider {
         };
     }
 
+    public Period previousPeriod(ToDoTimeType type) {
+
+        Period current = currentPeriod(type);
+
+        return switch (type) {
+            case DAILY -> new Period(current.start().minusDays(1), current.end().minusDays(1));
+            case WEEKLY -> new Period(current.start().minusWeeks(1), current.end().minusWeeks(1));
+            case MONTHLY -> new Period(current.start().minusMonths(1), current.end().minusMonths(1));
+            default -> null;
+        };
+    }
+
     public LocalDate today() {
         return LocalDate.now();
     }

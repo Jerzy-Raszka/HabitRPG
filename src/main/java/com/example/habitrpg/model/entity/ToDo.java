@@ -20,6 +20,7 @@ public class ToDo {
     private LocalDate deadline;
     private LocalDate lastRewardedAt;
     private LocalDate availableAt;
+    private Integer currentStreak;
     @ManyToOne
     @JoinColumn(name = "assigned_user_user_id")
     private User assignedUser;
@@ -32,6 +33,7 @@ public class ToDo {
         this.timeType = builder.timeType;
         this.deadline = builder.deadline;
         this.availableAt = builder.availableAt;
+        this.currentStreak = builder.currentStreak;
         this.assignedUser = builder.assignedUser;
     }
 
@@ -115,6 +117,14 @@ public class ToDo {
         this.lastRewardedAt = lastRewardedAt;
     }
 
+    public Integer getCurrentStreak() {
+        return currentStreak;
+    }
+
+    public void setCurrentStreak(Integer currentStreak) {
+        this.currentStreak = currentStreak;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -142,6 +152,7 @@ public class ToDo {
         private ToDoTimeType timeType = ToDoTimeType.NONE;
         private LocalDate deadline;
         private LocalDate availableAt;
+        private Integer currentStreak;
         private User assignedUser;
 
         public Builder(String task) {
@@ -172,6 +183,7 @@ public class ToDo {
             return this;
         }
 
+        
         public Builder assignedUser(User assignedUser) {
             this.assignedUser = Objects.requireNonNull(assignedUser, "User must be specified");
             return this;

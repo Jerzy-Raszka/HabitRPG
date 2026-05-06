@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,9 +28,38 @@ public class ToDoService {
         this.timeProvider = timeProvider;
     }
 
+    public boolean streakCheck(ToDo todo) {
+        if (todo.getLastRewardedAt() == null) {
+            return false;
+        }
+
+        Period previous = timeProvider.previousPeriod(todo.getTimeType());
+        LocalDate rewardDate = todo.getLastRewardedAt();
+
+        return !rewardDate.isBefore(previous.start()) && !rewardDate.isAfter(previous.end());
+    }
+
+    public void updateStreak(ToDo todo) {
+        if (todo.getTimeType() == null) {
+            return;
+        }
+
+        if (streakCheck(todo)) {
+            todo.setCurrentStreak(todo.getCurrentStreak() + 1);
+        } else {
+            todo.setCurrentStreak(1);
+        }
+    }
+
     public void giveRewards(User user, ToDo todo) {
-        user.addXp(todo.getRewardXp());
-        user.addGold(todo.getRewardGold());
+        double multiplayer = switch (todo.getTimeType()) {
+            case DAILY -> 0.1;
+            case WEEKLY -> 0.3;
+            case MONTHLY -> 1.0;
+            default -> 0.0;
+        };
+        user.addXp((int) Math.round((todo.getRewardXp() * (1 + multiplayer * todo.getCurrentStreak()))));
+        user.addGold((int) Math.round((todo.getRewardGold() * (1 + multiplayer * todo.getCurrentStreak()))));
     }
 
     public ToDoDto completeTodo(Integer id) {
@@ -41,6 +69,8 @@ public class ToDoService {
         if (isCompleted(todo)) {
             throw new RuntimeException("This task was already completed");
         }
+
+        updateStreak(todo);
 
         todo.setLastRewardedAt(timeProvider.today());
 
@@ -94,6 +124,7 @@ public class ToDoService {
                 completed,
                 canBeCompleted,
                 todo.getDeadline(),
+                todo.getCurrentStreak(),
                 available
         );
     }

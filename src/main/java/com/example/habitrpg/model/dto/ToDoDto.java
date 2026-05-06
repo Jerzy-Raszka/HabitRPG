@@ -21,6 +21,7 @@ public record ToDoDto(
         boolean canBeCompleted,
         @FutureOrPresent(message = "Deadline can't be in the past")
         LocalDate deadline,
+        Integer streak,
         boolean available
 ) {
 }
